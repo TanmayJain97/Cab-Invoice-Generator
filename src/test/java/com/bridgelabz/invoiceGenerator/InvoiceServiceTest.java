@@ -5,19 +5,22 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bridgelabz.invoiceGenerator.model.InvoiceSummary;
 import com.bridgelabz.invoiceGenerator.model.MyRide;
 
 public class InvoiceServiceTest {
 
 	InvoiceGenerator invoiceGen;
+	InvoiceSummary summary;
 	MyRide[] rides={
 		new MyRide(2.0,5),
 		new MyRide(0.1,1)
-};
+	};
 
 	@Before
 	public void init() {
 		invoiceGen=new InvoiceGenerator();
+		summary=invoiceGen.calcFare(rides);
 	}
 
 	//Check for fare
@@ -38,6 +41,7 @@ public class InvoiceServiceTest {
 	//Check for fare of multiple rides
 	@Test
 	public void givenMultipleRides_ShouldReturnFare() {
-		assertEquals(30.0, invoiceGen.calcFare(rides), 0.0);
+		InvoiceSummary expectedSummary=new InvoiceSummary(2, 30.0);
+		assertEquals(expectedSummary, summary);
 	}
 }

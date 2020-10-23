@@ -1,5 +1,6 @@
 package com.bridgelabz.invoiceGenerator;
 
+import com.bridgelabz.invoiceGenerator.model.InvoiceSummary;
 import com.bridgelabz.invoiceGenerator.model.MyRide;
 
 public class InvoiceGenerator {
@@ -14,11 +15,11 @@ public class InvoiceGenerator {
 		return Math.max(totalFare, MIN_FARE);
 	}
 
-	public double calcFare(MyRide[] rides) {
+	public InvoiceSummary calcFare(MyRide[] rides) {
 		double totalFare=0;
 		for (MyRide ride : rides) {
 			totalFare=totalFare+this.calcFare(ride.distance, ride.time);
 		}
-		return totalFare;
+		return new InvoiceSummary(rides.length, totalFare);
 	}
 }
