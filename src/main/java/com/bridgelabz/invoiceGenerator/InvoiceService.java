@@ -11,8 +11,8 @@ public class InvoiceService {
 	private static final double MIN_FARE=5;
 	private RideRepository rideRepo;
 	
-	public InvoiceService() {
-		this.rideRepo=new RideRepository();
+	public void addRepo(RideRepository repo) {
+		this.rideRepo=repo;
 	}
 
 	public double calcFare(double distance, int time) {
@@ -24,7 +24,7 @@ public class InvoiceService {
 	public InvoiceSummary calcFare(MyRide[] rides) {
 		double totalFare=0;
 		for (MyRide ride : rides) {
-			totalFare=totalFare+this.calcFare(ride.distance, ride.time);
+			totalFare=totalFare+ride.cabRide.calcFare(ride);
 		}
 		return new InvoiceSummary(rides.length, totalFare);
 	}
