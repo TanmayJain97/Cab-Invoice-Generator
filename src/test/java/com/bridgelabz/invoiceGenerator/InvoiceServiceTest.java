@@ -10,17 +10,22 @@ import com.bridgelabz.invoiceGenerator.model.MyRide;
 
 public class InvoiceServiceTest {
 
-	InvoiceGenerator invoiceGen;
+	InvoiceService invoiceGen;
 	InvoiceSummary summary;
+	InvoiceSummary summaryByUID;
+	String userId="user1";
 	MyRide[] rides={
-		new MyRide(2.0,5),
-		new MyRide(0.1,1)
+			new MyRide(2.0,5),
+			new MyRide(0.1,1)
 	};
 
 	@Before
 	public void init() {
-		invoiceGen=new InvoiceGenerator();
+		invoiceGen=new InvoiceService();
+		invoiceGen.addRides(userId, rides);
+		
 		summary=invoiceGen.calcFare(rides);
+		summaryByUID=invoiceGen.getInvoiceSummary(userId);
 	}
 
 	//Check for fare
@@ -43,5 +48,12 @@ public class InvoiceServiceTest {
 	public void givenMultipleRides_ShouldReturnFare() {
 		InvoiceSummary expectedSummary=new InvoiceSummary(2, 30.0);
 		assertEquals(expectedSummary, summary);
+	}
+
+	//Check for summary from RideRepo
+	@Test
+	public void givenUserId_ShouldReturnInvoiceSummary() {
+		InvoiceSummary expectedSummary=new InvoiceSummary(2, 30.0);
+		assertEquals(expectedSummary, summaryByUID);
 	}
 }
